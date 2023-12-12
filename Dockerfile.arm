@@ -1,0 +1,17 @@
+FROM munoz0raul/pyqt5
+
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
+
+RUN apt-get update -y \
+    && ACCEPT_EULA=Y apt-get install --no-install-recommends -yqq \
+        libpoppler-qt5-dev python3-pip \
+    && python3 -m pip install pymupdf flake8
+
+WORKDIR /app
+COPY . .
+
+ENTRYPOINT ["python3", "main.py"]
